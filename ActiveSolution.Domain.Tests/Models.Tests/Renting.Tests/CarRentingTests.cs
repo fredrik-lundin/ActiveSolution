@@ -8,8 +8,6 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Renting.Tests
     [TestFixture]
     public class CarRentingTests
     {
-        private static SmallCar SmallCar => new SmallCar("abc123");
-
         [Test]
         public void Ctor_NegativeBookingNumber_ShouldThrow()
         {
