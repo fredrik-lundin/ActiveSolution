@@ -25,6 +25,7 @@ namespace ActiveSolution.Domain.Models.Cars
             if(carReturn == null) throw new ArgumentNullException(nameof(carReturn));
             if (rentedDate > carReturn.ReturnedDate) throw new ArgumentException("Return date cannot be before rented date");
             if (baseDayPrice < 0) throw new ArgumentException($"{nameof(baseDayPrice)} cannot be a negative value");
+            if (baseKilometerPrice < 0) throw new ArgumentException($"{nameof(baseKilometerPrice)} cannot be a negative value");
 
             var numberOfDays = (int)(carReturn.ReturnedDate - rentedDate).TotalDays;
             numberOfDays = numberOfDays < 1 ? 1 : numberOfDays;
