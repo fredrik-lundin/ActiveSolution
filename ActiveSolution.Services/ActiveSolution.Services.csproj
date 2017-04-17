@@ -40,9 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cars\ICarService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renting\IRentingService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ActiveSolution.Domain\ActiveSolution.Domain.csproj">
+      <Project>{D00C660B-214F-46F3-AB61-0672D5BD4F84}</Project>
+      <Name>ActiveSolution.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

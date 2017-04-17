@@ -6,31 +6,30 @@ namespace ActiveSolution.Domain.Models.Cars
 {
     public abstract class Car
     {
-        public string RegistrationNumber { get; }
-        public CarType Type { get; }
-        public int KilometerDistance { get; set; }
-
-        protected Car(string registrationNumber, CarType type, int kilometerDistance = 0)
+        protected Car(string registrationNumber)
         {
-            if(string.IsNullOrWhiteSpace(registrationNumber)) throw new ArgumentNullException(nameof(registrationNumber));
-            if(kilometerDistance < 0) throw new ArgumentException($"{nameof(kilometerDistance)} cannot be a negative value");
+            if (string.IsNullOrWhiteSpace(registrationNumber))
+                throw new ArgumentNullException(nameof(registrationNumber));
 
             RegistrationNumber = registrationNumber;
-            Type = type;
-            KilometerDistance = kilometerDistance;
         }
 
-        public virtual decimal GetCalculatedRentingPrice(CarReturn carReturn, DateTime rentedDate, int baseDayPrice, int baseKilometerPrice = 0)
-        {
-            if(carReturn == null) throw new ArgumentNullException(nameof(carReturn));
-            if (rentedDate > carReturn.ReturnedDate) throw new ArgumentException("Return date cannot be before rented date");
-            if (baseDayPrice < 0) throw new ArgumentException($"{nameof(baseDayPrice)} cannot be a negative value");
-            if (baseKilometerPrice < 0) throw new ArgumentException($"{nameof(baseKilometerPrice)} cannot be a negative value");
+        public string RegistrationNumber { get; }
+        public abstract CarType Type { get; }
 
-            var numberOfDays = (int)(carReturn.ReturnedDate - rentedDate).TotalDays;
+        public virtual decimal GetCalculatedRentingPrice(CarRenting carRenting, CarReturn carReturn,
+            RentingBasePriceModel pricing)
+        {
+            if (carReturn == null) throw new ArgumentNullException(nameof(carReturn));
+            if (carRenting == null) throw new ArgumentNullException(nameof(carRenting));
+            if (pricing == null) throw new ArgumentNullException(nameof(pricing));
+            if (carRenting.RentingDate > carReturn.ReturnedDate)
+                throw new ArgumentException($"{nameof(carReturn)} return date cannot be before renting date");
+
+            var numberOfDays = (int) (carReturn.ReturnedDate - carRenting.RentingDate).TotalDays;
             numberOfDays = numberOfDays < 1 ? 1 : numberOfDays;
 
-            return numberOfDays * baseDayPrice;
+            return numberOfDays*pricing.DayPrice;
         }
     }
 }

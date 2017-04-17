@@ -1,5 +1,4 @@
-﻿using System;
-using ActiveSolution.Domain.Enums;
+﻿using ActiveSolution.Domain.Enums;
 using ActiveSolution.Domain.Models.Renting;
 
 namespace ActiveSolution.Domain.Models.Cars
@@ -8,15 +7,18 @@ namespace ActiveSolution.Domain.Models.Cars
     {
         private const decimal COMBI_PRICE_CALCULATION_FACTOR = 1.3m;
 
-        public CombiCar(string registrationNumber, CarType type, int kilometerDistance = 0) : base(registrationNumber, type, kilometerDistance)
+        public CombiCar(string registrationNumber) : base(registrationNumber)
         {
         }
 
-        public override decimal GetCalculatedRentingPrice(CarReturn carReturn, DateTime rentedDate, int baseDayPrice, int baseKilometerPrice = 0)
+        public override CarType Type => CarType.Combi;
+
+        public override decimal GetCalculatedRentingPrice(CarRenting carRenting, CarReturn carReturn,
+            RentingBasePriceModel pricing)
         {
-            var baseCalculatedPrice = base.GetCalculatedRentingPrice(carReturn, rentedDate, baseDayPrice, baseKilometerPrice);
-            var kilometersTraveled = carReturn.NewKilometerDistance - KilometerDistance;
-            var price = baseCalculatedPrice * COMBI_PRICE_CALCULATION_FACTOR + baseKilometerPrice * kilometersTraveled;
+            var baseCalculatedPrice = base.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
+            var kilometersTraveled = carReturn.NewKilometerDistance - carRenting.StartKilometerDistance;
+            var price = baseCalculatedPrice*COMBI_PRICE_CALCULATION_FACTOR + pricing.KilometerPrice*kilometersTraveled;
 
             return price;
         }

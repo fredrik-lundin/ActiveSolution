@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ActiveSolution.Domain.Enums;
 using ActiveSolution.Domain.Models.Cars;
 using ActiveSolution.Domain.Models.Renting;
 using NUnit.Framework;
@@ -14,75 +9,75 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Cars.Tests
     public class TruckTests
     {
         [Test]
-        public void GetCalculatedRentingPrice_WithValidParams_ShouldCalculateCorrectPrices()
+        public void GetCalculatedRentingPrice_WithNullBasePricing_ShouldThrow()
         {
-            const int baseDayPrice = 1000;
-            const int baseKilometerPrice = 5;
+            var truck = new Truck("abc123");
+            var carReturn = new CarReturn(123, DateTime.Now, 3000);
 
-            var truck = new Truck("abc123", CarType.Truck);
-            var carReturn = new CarReturn(123, DateTime.Now, 300);
-            
-            var calculatedPrice = truck.GetCalculatedRentingPrice(carReturn, DateTime.Now.AddMinutes(-1), baseDayPrice, baseKilometerPrice);
-            Assert.AreEqual(3750, calculatedPrice, "Same day");
-
-            carReturn = new CarReturn(123, DateTime.Now, 300);
-            calculatedPrice = truck.GetCalculatedRentingPrice(carReturn, DateTime.Now.AddMinutes(-1), 2000, baseKilometerPrice);
-            Assert.AreEqual(5250, calculatedPrice, "Same day, baseDayPrice = 2000");
-
-            carReturn = new CarReturn(123, DateTime.Now, 300);
-            calculatedPrice = truck.GetCalculatedRentingPrice(carReturn, DateTime.Now.AddDays(-1), baseDayPrice, baseKilometerPrice);
-            Assert.AreEqual(3750, calculatedPrice, "1 day");
-
-            carReturn = new CarReturn(123, DateTime.Now, 300);
-            calculatedPrice = truck.GetCalculatedRentingPrice(carReturn, DateTime.Now.AddDays(-2), baseDayPrice, baseKilometerPrice);
-            Assert.AreEqual(5250, calculatedPrice, "2 days");
-
-            carReturn = new CarReturn(123, DateTime.Now, 300);
-            calculatedPrice = truck.GetCalculatedRentingPrice(carReturn, DateTime.Now.AddDays(-5), baseDayPrice, baseKilometerPrice);
-            Assert.AreEqual(9750, calculatedPrice, "5 days");
-
-            carReturn = new CarReturn(123, DateTime.Now, 300);
-            calculatedPrice = truck.GetCalculatedRentingPrice(carReturn, DateTime.Now.AddDays(-5), baseDayPrice, 7);
-            Assert.AreEqual(10650, calculatedPrice, "5 days, baseKilometerPrice = 7");
+            Assert.Throws(typeof(ArgumentNullException),
+                () => truck.GetCalculatedRentingPrice(null, carReturn, null));
         }
 
         [Test]
         public void GetCalculatedRentingPrice_WithNullCarReturn_ShouldThrow()
         {
-            var truck = new Truck("abc123", CarType.Truck);
+            var truck = new Truck("abc123");
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
 
             Assert.Throws(typeof(ArgumentNullException),
-                () => truck.GetCalculatedRentingPrice(null, DateTime.Now, 1000));
-        }
-
-        [Test]
-        public void GetCalculatedRentingPrice_WithNegativeBaseDayPrice_ShouldThrow()
-        {
-            var truck = new Truck("abc123", CarType.Truck);
-            var carReturn = new CarReturn(123, DateTime.Now, 3000);
-
-            Assert.Throws(typeof(ArgumentException),
-                () => truck.GetCalculatedRentingPrice(carReturn, DateTime.Now, -1000, 1000));
-        }
-
-        [Test]
-        public void GetCalculatedRentingPrice_WithNegativeBaseKilometerPrice_ShouldThrow()
-        {
-            var truck = new Truck("abc123", CarType.Truck);
-            var carReturn = new CarReturn(123, DateTime.Now, 3000);
-
-            Assert.Throws(typeof(ArgumentException),
-                () => truck.GetCalculatedRentingPrice(carReturn, DateTime.Now, 1000, -1000));
+                () => truck.GetCalculatedRentingPrice(carRenting, null, new RentingBasePriceModel()), "carRented");
         }
 
         [Test]
         public void GetCalculatedRentingPrice_WithReturnDateBeforeRentedDate_ShouldThrow()
         {
-            var truck = new Truck("abc123", CarType.Truck);
+            var truck = new Truck("abc123");
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now.AddMinutes(1), 0);
             var carReturn = new CarReturn(123, DateTime.Now, 3000);
 
             Assert.Throws(typeof(ArgumentException),
-                () => truck.GetCalculatedRentingPrice(carReturn, DateTime.Now.AddDays(1), 1000));
+                () => truck.GetCalculatedRentingPrice(carRenting, carReturn, new RentingBasePriceModel()));
+        }
+
+        [Test]
+        public void GetCalculatedRentingPrice_WithValidParams_ShouldCalculateCorrectPrices()
+        {
+            var truck = new Truck("abc123");
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            var carReturn = new CarReturn(123, DateTime.Now.AddMinutes(1), 300);
+            var pricing = new RentingBasePriceModel(1000, 5);
+            var calculatedPrice = truck.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
+            Assert.AreEqual(3750, calculatedPrice, "Same day");
+
+            carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            carReturn = new CarReturn(123, DateTime.Now.AddMinutes(1), 300);
+            pricing = new RentingBasePriceModel(2000, 5);
+            calculatedPrice = truck.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
+            Assert.AreEqual(5250, calculatedPrice, "Same day, baseDayPrice = 2000");
+
+            carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            carReturn = new CarReturn(123, DateTime.Now.AddDays(1), 300);
+            pricing = new RentingBasePriceModel(1000, 5);
+            calculatedPrice = truck.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
+            Assert.AreEqual(3750, calculatedPrice, "1 day");
+
+            carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            carReturn = new CarReturn(123, DateTime.Now.AddDays(2), 300);
+            pricing = new RentingBasePriceModel(1000, 5);
+            calculatedPrice = truck.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
+            Assert.AreEqual(5250, calculatedPrice, "2 days");
+
+            carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            carReturn = new CarReturn(123, DateTime.Now.AddDays(5), 300);
+            pricing = new RentingBasePriceModel(1000, 5);
+            calculatedPrice = truck.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
+            Assert.AreEqual(9750, calculatedPrice, "5 days");
+
+            carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            carReturn = new CarReturn(123, DateTime.Now.AddDays(5), 300);
+            pricing = new RentingBasePriceModel(1000, 7);
+            calculatedPrice = truck.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
+            Assert.AreEqual(10650, calculatedPrice, "5 days, baseKilometerPrice = 7");
         }
     }
 }

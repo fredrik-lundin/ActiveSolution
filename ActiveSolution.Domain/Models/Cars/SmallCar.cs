@@ -2,10 +2,12 @@
 
 namespace ActiveSolution.Domain.Models.Cars
 {
-    public class SmallCar: Car
+    public class SmallCar : Car
     {
-        public SmallCar(string registrationNumber, CarType type, int kilometerDistance = 0) : base(registrationNumber, type, kilometerDistance)
+        public SmallCar(string registrationNumber) : base(registrationNumber)
         {
         }
+
+        public override CarType Type => CarType.Small;
     }
 }

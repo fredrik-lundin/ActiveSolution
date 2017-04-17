@@ -57,6 +57,7 @@
     <Compile Include="Models.Tests\Renting.Tests\CarRentingTests.cs" />
     <Compile Include="Models.Tests\Renting.Tests\CarReturnTests.cs" />
     <Compile Include="Models.Tests\Cars.Tests\SmallCarTests.cs" />
+    <Compile Include="Models.Tests\Renting.Tests\RentingBasePriceModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
