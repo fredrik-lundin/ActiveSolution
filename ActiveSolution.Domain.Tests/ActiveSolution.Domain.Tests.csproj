@@ -50,7 +50,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Models.Tests\Cars.Tests\CarBaseClassTests.cs" />
     <Compile Include="Models.Tests\Cars.Tests\CombiCarTests.cs" />
+    <Compile Include="Models.Tests\Cars.Tests\MockCar.cs" />
+    <Compile Include="Models.Tests\Cars.Tests\TruckTests.cs" />
     <Compile Include="Models.Tests\Renting.Tests\CarRentingTests.cs" />
     <Compile Include="Models.Tests\Renting.Tests\CarReturnTests.cs" />
     <Compile Include="Models.Tests\Cars.Tests\SmallCarTests.cs" />
