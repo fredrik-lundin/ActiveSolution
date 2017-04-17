@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ActiveSolution.Domain.Enums;
 using ActiveSolution.Domain.Models.Renting;
 
 namespace ActiveSolution.Domain.Models.Cars
 {
-    public class CombiCar : Car
+    public class Truck : Car
     {
-        private const decimal COMBI_PRICE_CALCULATION_FACTOR = 1.3m;
+        private decimal TRUCK_PRICE_CALCULATION_FACTOR = 1.5m;
 
-        public CombiCar(string registrationNumber, CarType type, int kilometerDistance = 0) : base(registrationNumber, type, kilometerDistance)
+        public Truck(string registrationNumber, CarType type, int kilometerDistance = 0) : base(registrationNumber, type, kilometerDistance)
         {
         }
 
@@ -16,7 +20,7 @@ namespace ActiveSolution.Domain.Models.Cars
         {
             var baseCalculatedPrice = base.GetCalculatedRentingPrice(carReturn, rentedDate, baseDayPrice, baseKilometerPrice);
             var kilometersTraveled = carReturn.NewKilometerDistance - KilometerDistance;
-            var price = baseCalculatedPrice * COMBI_PRICE_CALCULATION_FACTOR + baseKilometerPrice * kilometersTraveled;
+            var price = baseCalculatedPrice * TRUCK_PRICE_CALCULATION_FACTOR + baseKilometerPrice * kilometersTraveled * TRUCK_PRICE_CALCULATION_FACTOR;
 
             return price;
         }

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Models\Cars\Car.cs" />
     <Compile Include="Models\Cars\CombiCar.cs" />
+    <Compile Include="Models\Cars\Truck.cs" />
     <Compile Include="Models\Renting\CarRenting.cs" />
     <Compile Include="Models\Renting\CarReturn.cs" />
     <Compile Include="Models\Cars\SmallCar.cs" />
