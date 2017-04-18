@@ -26,7 +26,7 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Cars.Tests
             var truck = new Truck("abc123");
 
             Assert.Throws(typeof(ArgumentNullException),
-                () => truck.GetCalculatedRentingPrice(null, new RentingBasePriceModel()), "carRented");
+                () => truck.GetCalculatedRentingPrice(null, new RentingBasePriceModel()));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Cars.Tests
             var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
 
             Assert.Throws(typeof(InvalidOperationException),
-                () => combiCar.GetCalculatedRentingPrice(carRenting, new RentingBasePriceModel()), "carRented");
+                () => combiCar.GetCalculatedRentingPrice(carRenting, new RentingBasePriceModel()));
         }
 
         [Test]
