@@ -1,4 +1,5 @@
 ﻿using System;
+using ActiveSolution.Domain.Enums;
 using ActiveSolution.Domain.Models.Cars;
 using ActiveSolution.Domain.Models.Renting;
 using NUnit.Framework;
@@ -12,10 +13,21 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Cars.Tests
         public void GetCalculatedRentingPrice_WithNullBasePricing_ShouldThrow()
         {
             var combiCar = new CombiCar("abc123");
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
             var carReturn = new CarReturn(123, DateTime.Now, 3000);
 
             Assert.Throws(typeof(ArgumentNullException),
-                () => combiCar.GetCalculatedRentingPrice(null, carReturn, null));
+                () => combiCar.GetCalculatedRentingPrice(carRenting, carReturn, null));
+        }
+
+        [Test]
+        public void GetCalculatedRentingPrice_WithNullCarRenting_ShouldThrow()
+        {
+            var combiCar = new CombiCar("abc123");
+            var carReturn = new CarReturn(123, DateTime.Now, 3000);
+
+            Assert.Throws(typeof(ArgumentNullException),
+                () => combiCar.GetCalculatedRentingPrice(null, carReturn, new RentingBasePriceModel()), "carRented");
         }
 
         [Test]
@@ -78,6 +90,13 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Cars.Tests
             pricing = new RentingBasePriceModel(1000, 7);
             calculatedPrice = combiCar.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
             Assert.AreEqual(8600, calculatedPrice, "5 days, baseKilometerPrice = 7");
+        }
+
+        [Test]
+        public void CombiCar_ShouldAlwayReturnCarTypeOfCombi()
+        {
+            var combiCar = new CombiCar("abc123");
+            Assert.AreEqual(CarType.Combi, combiCar.Type);
         }
     }
 }
