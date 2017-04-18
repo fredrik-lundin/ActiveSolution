@@ -20,8 +20,8 @@ namespace ActiveSolution.Domain.Models.Cars
         public virtual decimal GetCalculatedRentingPrice(CarRenting carRenting, RentingBasePriceModel pricing)
         {
             if (carRenting == null) throw new ArgumentNullException(nameof(carRenting));
-            if (!carRenting.ReturnDate.HasValue) throw new InvalidOperationException("Cannot calulate price until the car is returned");
-            if (!carRenting.ReturnKilometerDistance.HasValue) throw new InvalidOperationException("Cannot calulate price until the car is returned");
+            if (!carRenting.ReturnDate.HasValue) throw new InvalidOperationException("Cannot calculate price until the car is returned");
+            if (!carRenting.ReturnKilometerDistance.HasValue) throw new InvalidOperationException("Cannot calculate price until the car is returned");
             if (pricing == null) throw new ArgumentNullException(nameof(pricing));
 
             var numberOfDays = (int) (carRenting.ReturnDate.Value - carRenting.RentingDate).TotalDays;
