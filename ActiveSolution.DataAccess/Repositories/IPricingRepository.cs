@@ -5,5 +5,6 @@ namespace ActiveSolution.DataAccess.Repositories
     public interface IPricingRepository
     {
         RentingBasePriceModel GetCurrentBasePricing();
+        void SetCurrentBasePricing(RentingBasePriceModel pricing);
     }
 }

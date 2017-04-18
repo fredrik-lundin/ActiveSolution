@@ -6,5 +6,6 @@ namespace ActiveSolution.DataAccess.Repositories
     {
         Car GetCar(string registrationNumber);
         bool CarExists(string registrationNumber);
+        void AddCar(Car car);
     }
 }
