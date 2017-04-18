@@ -25,6 +25,21 @@ namespace ActiveSolution.Domain.Models.Renting
         public string RegistrationNumber { get; }
         public string RenterId { get; }
         public DateTime RentingDate { get; }
-        public int StartKilometerDistance { get; set; }
+        public int StartKilometerDistance { get; }
+        public DateTime? ReturnDate { get; private set; }
+        public int? ReturnKilometerDistance { get; private set; }
+
+        public void ReturnCar(DateTime returnDate, int newKilometerDistance)
+        {
+            if (newKilometerDistance < 0)
+                throw new ArgumentException($"{nameof(newKilometerDistance)} cannot be a negative value");
+            if (returnDate < RentingDate)
+                throw new ArgumentException($"{nameof(returnDate)} cannot be before {nameof(RentingDate)}");
+
+            ReturnDate = returnDate;
+            ReturnKilometerDistance = newKilometerDistance;
+        }
+
+        
     }
 }

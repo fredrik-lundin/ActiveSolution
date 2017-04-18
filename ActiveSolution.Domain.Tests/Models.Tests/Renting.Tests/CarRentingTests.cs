@@ -48,5 +48,34 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Renting.Tests
             Assert.AreEqual(now, carRenting.RentingDate);
             Assert.AreEqual(10, carRenting.StartKilometerDistance);
         }
+
+        [Test]
+        public void ReturnCar_WithValidParams_ShouldPopulateProperties()
+        {
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+
+            Assert.AreEqual(null, carRenting.ReturnDate);
+            Assert.AreEqual(null, carRenting.ReturnKilometerDistance);
+
+            var returnDate = DateTime.Now.AddDays(1);
+            carRenting.ReturnCar(returnDate, 3000);
+
+            Assert.AreEqual(returnDate, carRenting.ReturnDate);
+            Assert.AreEqual(3000, carRenting.ReturnKilometerDistance);
+        }
+
+        [Test]
+        public void ReturnCar_NegativeNewKilometerDistance_ShouldThrow()
+        {
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            Assert.Throws(typeof(ArgumentException), () => carRenting.ReturnCar(DateTime.Now, -3000));
+        }
+
+        [Test]
+        public void ReturnCar_WithReturnDateBeforeRentingDate_ShouldThrow()
+        {
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            Assert.Throws(typeof(ArgumentException), () => carRenting.ReturnCar(DateTime.Now.AddDays(-1), 3000));
+        }
     }
 }

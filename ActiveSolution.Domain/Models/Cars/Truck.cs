@@ -13,11 +13,11 @@ namespace ActiveSolution.Domain.Models.Cars
 
         public override CarType Type => CarType.Truck;
 
-        public override decimal GetCalculatedRentingPrice(CarRenting carRenting, CarReturn carReturn,
+        public override decimal GetCalculatedRentingPrice(CarRenting carRenting,
             RentingBasePriceModel pricing)
         {
-            var baseCalculatedPrice = base.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
-            var kilometersTraveled = carReturn.NewKilometerDistance - carRenting.StartKilometerDistance;
+            var baseCalculatedPrice = base.GetCalculatedRentingPrice(carRenting, pricing);
+            var kilometersTraveled = carRenting.ReturnKilometerDistance.Value - carRenting.StartKilometerDistance;
             var price = baseCalculatedPrice*TRUCK_PRICE_CALCULATION_FACTOR +
                         pricing.KilometerPrice*kilometersTraveled*TRUCK_PRICE_CALCULATION_FACTOR;
 
