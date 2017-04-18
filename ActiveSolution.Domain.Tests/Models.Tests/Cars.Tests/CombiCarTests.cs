@@ -49,35 +49,30 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Cars.Tests
             var calculatedPrice = combiCar.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
             Assert.AreEqual(2800, calculatedPrice, "Same day");
 
-            combiCar = new CombiCar("abc123");
             carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
             carReturn = new CarReturn(123, DateTime.Now.AddMinutes(1), 300);
             pricing = new RentingBasePriceModel(2000, 5);
             calculatedPrice = combiCar.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
             Assert.AreEqual(4100, calculatedPrice, "Same day, baseDayPrice = 2000");
 
-            combiCar = new CombiCar("abc123");
             carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
             carReturn = new CarReturn(123, DateTime.Now.AddDays(1), 300);
             pricing = new RentingBasePriceModel(1000, 5);
             calculatedPrice = combiCar.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
             Assert.AreEqual(2800, calculatedPrice, "1 day");
 
-            combiCar = new CombiCar("abc123");
             carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
             carReturn = new CarReturn(123, DateTime.Now.AddDays(2), 300);
             pricing = new RentingBasePriceModel(1000, 5);
             calculatedPrice = combiCar.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
             Assert.AreEqual(4100, calculatedPrice, "2 days");
 
-            combiCar = new CombiCar("abc123");
             carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
             carReturn = new CarReturn(123, DateTime.Now.AddDays(5), 300);
             pricing = new RentingBasePriceModel(1000, 5);
             calculatedPrice = combiCar.GetCalculatedRentingPrice(carRenting, carReturn, pricing);
             Assert.AreEqual(8000, calculatedPrice, "5 days");
 
-            combiCar = new CombiCar("abc123");
             carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
             carReturn = new CarReturn(123, DateTime.Now.AddDays(5), 300);
             pricing = new RentingBasePriceModel(1000, 7);
