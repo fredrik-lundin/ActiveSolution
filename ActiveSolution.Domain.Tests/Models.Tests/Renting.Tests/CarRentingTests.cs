@@ -1,5 +1,4 @@
 ﻿using System;
-using ActiveSolution.Domain.Models.Cars;
 using ActiveSolution.Domain.Models.Renting;
 using NUnit.Framework;
 

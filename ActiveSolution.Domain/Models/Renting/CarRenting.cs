@@ -39,7 +39,5 @@ namespace ActiveSolution.Domain.Models.Renting
             ReturnDate = returnDate;
             ReturnKilometerDistance = newKilometerDistance;
         }
-
-        
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using ActiveSolution.DataAccess.Repositories;
+﻿using ActiveSolution.DataAccess.Repositories;
 using ActiveSolution.Domain.Models.Renting;
 
 namespace ActiveSolution.Services.Tests.MockRepositoryImplementations

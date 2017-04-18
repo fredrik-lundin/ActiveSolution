@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ActiveSolution.DataAccess.Repositories;
-using ActiveSolution.Domain.Enums;
 using ActiveSolution.Domain.Models.Cars;
 
 namespace ActiveSolution.Services.Tests.MockRepositoryImplementations
 {
-    public class MockCarRepository  : ICarRepository
+    public class MockCarRepository : ICarRepository
     {
         private IList<Car> Cars { get; }
 
@@ -17,7 +14,7 @@ namespace ActiveSolution.Services.Tests.MockRepositoryImplementations
             Cars = new List<Car>();
         }
 
-        public Car GetCar(string registrationNumber) => 
+        public Car GetCar(string registrationNumber) =>
             Cars.SingleOrDefault(c => c.RegistrationNumber == registrationNumber);
 
         public bool CarExists(string registrationNumber) =>

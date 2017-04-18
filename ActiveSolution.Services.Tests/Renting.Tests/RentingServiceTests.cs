@@ -1,21 +1,21 @@
 ﻿using System;
+using ActiveSolution.DataAccess.Repositories;
 using ActiveSolution.Domain.Models.Cars;
 using ActiveSolution.Domain.Models.Renting;
 using ActiveSolution.Services.Renting;
 using ActiveSolution.Services.Tests.MockRepositoryImplementations;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace ActiveSolution.Services.Tests.Renting.Tests
 {
     [TestFixture]
     public class RentingServiceTests
     {
-        private MockRentingRepository _rentingRepository;
-        private MockCarRepository _carRepository;
-        private MockPricingRepository _pricingRepository;
+        private IRentingRepository _rentingRepository;
+        private ICarRepository _carRepository;
+        private IPricingRepository _pricingRepository;
 
-        private RentingService _rentingService;
+        private IRentingService _rentingService;
 
         [SetUp]
         public void InitDependencies()
@@ -103,15 +103,15 @@ namespace ActiveSolution.Services.Tests.Renting.Tests
         [Test]
         public void RenturnCar_WithValidParameters_ShouldUpdateCarRentingCorrectly()
         {
-            _carRepository.AddCar(new SmallCar("abc123"));
-            _pricingRepository.SetCurrentBasePricing(new RentingBasePriceModel());
+            _carRepository.AddCar(new Truck("abc123"));
+            _pricingRepository.SetCurrentBasePricing(new RentingBasePriceModel(1000, 5));
             _rentingService.RentOutCar(1, "abc123", "900504", DateTime.Now, 0);
 
             var carRentingNotReturned = _rentingRepository.GetCarRenting(1);
             Assert.IsNull(carRentingNotReturned.ReturnKilometerDistance);
             Assert.IsNull(carRentingNotReturned.ReturnDate);
 
-            _rentingService.ReturnCar(1, DateTime.Now, 10);
+            _rentingService.ReturnCar(1, DateTime.Now.AddDays(1), 300);
             var carRentingReturned = _rentingRepository.GetCarRenting(1);
             Assert.IsNotNull(carRentingReturned.ReturnKilometerDistance);
             Assert.IsNotNull(carRentingReturned.ReturnDate);
