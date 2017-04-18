@@ -42,8 +42,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renting\IRentingService.cs" />
+    <Compile Include="Renting\RentingService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ActiveSolution.DataAccess\ActiveSolution.DataAccess.csproj">
+      <Project>{A0111FB9-563E-485A-80A7-2D95467BF685}</Project>
+      <Name>ActiveSolution.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ActiveSolution.Domain\ActiveSolution.Domain.csproj">
       <Project>{D00C660B-214F-46F3-AB61-0672D5BD4F84}</Project>
       <Name>ActiveSolution.Domain</Name>

@@ -1,12 +1,13 @@
 ﻿using System;
-using ActiveSolution.Domain.Enums;
 
 namespace ActiveSolution.Services.Renting
 {
-    internal interface IRentingService
+    public interface IRentingService
     {
         void RentOutCar(int bookingNumber, string registrationNumber,
-            string renterId, CarType carType, DateTime timeOfRenting,
+            string renterId, DateTime timeOfRenting,
             int kilometerDistance);
+
+        decimal ReturnCar(int bookingNumber, DateTime timeOfReturn, int newKilometerDistance);
     }
 }
