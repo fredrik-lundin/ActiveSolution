@@ -31,8 +31,10 @@ namespace ActiveSolution.Domain.Models.Renting
 
         public void ReturnCar(DateTime returnDate, int newKilometerDistance)
         {
-            if (newKilometerDistance < 0)
-                throw new ArgumentException($"{nameof(newKilometerDistance)} cannot be a negative value");
+            if(ReturnDate.HasValue)
+                throw new InvalidOperationException("The car has already been returned");
+            if (newKilometerDistance < StartKilometerDistance)
+                throw new ArgumentException($"{nameof(newKilometerDistance)} cannot be less than {nameof(StartKilometerDistance)}");
             if (returnDate < RentingDate)
                 throw new ArgumentException($"{nameof(returnDate)} cannot be before {nameof(RentingDate)}");
 
