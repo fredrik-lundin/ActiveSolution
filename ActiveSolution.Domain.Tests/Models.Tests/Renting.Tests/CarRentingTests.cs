@@ -64,10 +64,10 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Renting.Tests
         }
 
         [Test]
-        public void ReturnCar_NegativeNewKilometerDistance_ShouldThrow()
+        public void ReturnCar_NewKilometerDistanceLessThanStartKilometer_ShouldThrow()
         {
-            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
-            Assert.Throws(typeof(ArgumentException), () => carRenting.ReturnCar(DateTime.Now, -3000));
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 300);
+            Assert.Throws(typeof(ArgumentException), () => carRenting.ReturnCar(DateTime.Now, 250));
         }
 
         [Test]
@@ -75,6 +75,14 @@ namespace ActiveSolution.Domain.Tests.Models.Tests.Renting.Tests
         {
             var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
             Assert.Throws(typeof(ArgumentException), () => carRenting.ReturnCar(DateTime.Now.AddDays(-1), 3000));
+        }
+
+        [Test]
+        public void ReturnCar_WhenACarIsAlreadyReturned_ShouldThrow()
+        {
+            var carRenting = new CarRenting(123, "abc123", "900504", DateTime.Now, 0);
+            carRenting.ReturnCar(DateTime.Now.AddDays(1), 3000);
+            Assert.Throws(typeof(InvalidOperationException), () => carRenting.ReturnCar(DateTime.Now.AddDays(1), 3000));
         }
     }
 }
