@@ -30,8 +30,7 @@ namespace ActiveSolution.Services.Renting
             if (!_rentingRepository.IsCarAvaiableForRenting(registrationNumber))
                 throw new InvalidOperationException($"Car ({registrationNumber}) is already rented out");
 
-            var carRenting = new CarRenting(bookingNumber, registrationNumber, renterId, timeOfRenting,
-                kilometerDistance);
+            var carRenting = new CarRenting(bookingNumber, registrationNumber, renterId, timeOfRenting, kilometerDistance);
             _rentingRepository.SaveOrUpdateCarRenting(carRenting);
         }
 
@@ -45,7 +44,7 @@ namespace ActiveSolution.Services.Renting
 
             var basePriceModel = _pricingRepository.GetCurrentBasePricing();
             if (basePriceModel == null)
-                throw new InvalidOperationException("No base prices exists");
+                throw new InvalidOperationException("No base prices exist");
 
             var car = _carRepository.GetCar(carRenting.RegistrationNumber);
             if (car == null)
