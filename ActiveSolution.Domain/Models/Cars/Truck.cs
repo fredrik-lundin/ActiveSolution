@@ -5,7 +5,7 @@ namespace ActiveSolution.Domain.Models.Cars
 {
     public class Truck : Car
     {
-        private readonly decimal TRUCK_PRICE_CALCULATION_FACTOR = 1.5m;
+        private const decimal TRUCK_PRICE_CALCULATION_FACTOR = 1.5m;
 
         public Truck(string registrationNumber) : base(registrationNumber)
         {
