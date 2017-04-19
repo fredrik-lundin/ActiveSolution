@@ -6,6 +6,7 @@ namespace ActiveSolution.Domain.Models.Cars
 {
     public abstract class Car
     {
+        /// <exception cref="ArgumentNullException">If registration number is null</exception>
         protected Car(string registrationNumber)
         {
             if (string.IsNullOrWhiteSpace(registrationNumber))
@@ -17,6 +18,9 @@ namespace ActiveSolution.Domain.Models.Cars
         public string RegistrationNumber { get; }
         public abstract CarType Type { get; }
 
+
+        /// <exception cref="ArgumentNullException">If any argument is null</exception>
+        /// <exception cref="InvalidOperationException">If car is not returned before this method is invoked</exception>
         public virtual decimal GetCalculatedRentingPrice(CarRenting carRenting, RentingBasePriceModel pricing)
         {
             if (carRenting == null) throw new ArgumentNullException(nameof(carRenting));

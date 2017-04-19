@@ -4,6 +4,8 @@ namespace ActiveSolution.Domain.Models.Renting
 {
     public class CarRenting
     {
+        /// <exception cref="ArgumentNullException">If any parameter is null</exception>
+        /// <exception cref="ArgumentException">If the booking number is a negative value</exception>
         public CarRenting(int bookingNumber, string registrationNumber, string renterId, DateTime rentingDate,
             int startKilometerDistance)
         {
@@ -29,6 +31,9 @@ namespace ActiveSolution.Domain.Models.Renting
         public DateTime? ReturnDate { get; private set; }
         public int? ReturnKilometerDistance { get; private set; }
 
+        ///<exception cref="InvalidOperationException">If the car is already returned</exception>
+        ///<exception cref="ArgumentException">If newKilometerDistance is less than StartKilometerDistance</exception>
+        ///<exception cref="ArgumentException">If returnDate is before renting date</exception>
         public void ReturnCar(DateTime returnDate, int newKilometerDistance)
         {
             if(ReturnDate.HasValue)

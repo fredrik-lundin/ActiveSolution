@@ -4,6 +4,7 @@ namespace ActiveSolution.Domain.Models.Renting
 {
     public class RentingBasePriceModel
     {
+        /// <exception cref="ArgumentException">If any argument is a negative value</exception>
         public RentingBasePriceModel(int dayPrice = 0, int kilometerPrice = 0)
         {
             if (dayPrice < 0) throw new ArgumentException($"{nameof(dayPrice)} cannot be a negative value");
