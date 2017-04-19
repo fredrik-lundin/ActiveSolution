@@ -42,17 +42,19 @@ namespace ActiveSolution.Services.Renting
                 throw new InvalidOperationException($"No booking with booking number \"{bookingNumber}\" exists");
 
             carRenting.ReturnCar(timeOfReturn, newKilometerDistance);
-            _rentingRepository.SaveOrUpdateCarRenting(carRenting);
 
             var basePriceModel = _pricingRepository.GetCurrentBasePricing();
-            if (basePriceModel == null) throw new InvalidOperationException("No base prices exists");
+            if (basePriceModel == null)
+                throw new InvalidOperationException("No base prices exists");
 
             var car = _carRepository.GetCar(carRenting.RegistrationNumber);
             if (car == null)
-                throw new InvalidOperationException(
-                    $"Car ({carRenting.RegistrationNumber}) associated with the booking doesn't exist");
+                throw new InvalidOperationException($"Car ({carRenting.RegistrationNumber}) associated with the booking doesn't exist");
 
-            return car.GetCalculatedRentingPrice(carRenting, basePriceModel);
+            var price = car.GetCalculatedRentingPrice(carRenting, basePriceModel);
+            _rentingRepository.SaveOrUpdateCarRenting(carRenting);
+
+            return price;
         }
     }
 }
